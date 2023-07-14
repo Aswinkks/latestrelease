@@ -51,3 +51,4 @@ jobs:
             echo "Release Deleted: ${{ github.event.release.tag_name }}"
             echo "latest tag: ${{ needs.fetch-tag-step.outputs.tag }}"
             echo "Release Action: ${{ github.event.action }}"
+        
