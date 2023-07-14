@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Create Releases
+
+jobs:
+  release:
+    name: Create Releases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: DBK Release
+          body: |
+            Creating a releases file
+          draft: false
+          prerelease: false
