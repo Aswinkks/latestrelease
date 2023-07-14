@@ -44,7 +44,7 @@ jobs:
       runs-on: ubuntu-latest
       needs: fetch-tag-step
       environment: ${{ needs.fetch-tag-step.outputs.tag }}
-      if: ${{ github.event.release.tag_name == 'deleted' }} && ${{ github.event.release.tag_name > needs.fetch-tag-step.outputs.tag }}
+      if: ${{ github.event.release.tag_name == 'deleted' && github.event.release.tag_name > needs.fetch-tag-step.outputs.tag }}
       steps: 
         - name: Display release deletion event information
           run: |
