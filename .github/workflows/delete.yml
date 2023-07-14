@@ -1,0 +1,17 @@
+on:
+  release:
+    types: 
+      - deleted
+
+name: triggered workflow
+
+jobs:
+  fetch-tag-step:
+    name: Fetching the tag
+    outputs:
+      tag: ${{ steps.fetch_tag.outputs.tag }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display release deletion event information
+        run: |
+          echo "Release Deleted: ${{ github.event.release.tag_name }}"
