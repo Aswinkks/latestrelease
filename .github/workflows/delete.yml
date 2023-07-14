@@ -38,7 +38,7 @@ jobs:
             echo "---------------------------------"
             echo "tag=$tag_name"  >> "$GITHUB_OUTPUT"
             echo "the latest tag is $tag_name"
-            ECHO "DELETED TAG ${{ github.event.release.tag_name }}"
+            echo "DELETED TAG ${{ github.event.release.tag_name }}"
   Download-Release:
       name: Download Release
       runs-on: ubuntu-latest
