@@ -1,0 +1,52 @@
+on:
+  release:
+    types: 
+      - published
+
+name: triggered workflow
+
+
+jobs:
+  fetch-tag-step:
+    name: Fetching the tag
+    outputs:
+      tag: ${{ steps.fetch_tag.outputs.tag }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: simple
+        id: fetch_tag
+        run: |
+            USER="Aswinkks"
+            REPO=${{ github.event.repository.name }}
+            TOKEN=${{ github.token }}
+
+            API_URL="https://api.github.com/repos/${USER}/${REPO}/releases/latest"
+
+            # Download the release artifact details
+            URL=$(curl -s -H "Authorization: token ${TOKEN}" "${API_URL}")
+
+            name=$(echo "$URL" | jq -r '.name')
+            tag_name=$(echo "$URL" | jq -r '.tag_name')
+            commit_id=$(echo "$URL" | jq -r '.target_commitish')
+            
+            echo "----------------------------------"
+            echo "The Release Details are as follows"
+            echo "Name: ${name}"
+            echo "Tag: ${tag_name}"
+            echo "CommitId: ${commit_id}"
+            echo "---------------------------------"
+            echo "tag=$tag_name"  >> "$GITHUB_OUTPUT"
+            echo "the latest tag is $tag_name"
+            echo "DELETED TAG ${{ github.event.release.tag_name }}"
+  Download-Release:
+      name: Download Release
+      runs-on: ubuntu-latest
+      needs: fetch-tag-step
+      environment: ${{ needs.fetch-tag-step.outputs.tag }}
+      steps: 
+        - name: Display release deletion event information
+          run: |
+            echo "Release Deleted: ${{ github.event.release.tag_name }}"
+            echo "latest tag: ${{ needs.fetch-tag-step.outputs.tag }}"
+            echo "Release Action: ${{ github.event.action }}"
+        
