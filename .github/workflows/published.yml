@@ -3,7 +3,7 @@ on:
     types: 
       - published
 
-name: triggered workflow
+name: published workflow
 
 
 jobs:
