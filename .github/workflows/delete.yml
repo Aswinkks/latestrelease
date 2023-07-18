@@ -1,10 +1,13 @@
+name: triggered workflow
 on:
   release:
     types: 
       - deleted
 
-name: triggered workflow
 
+permissions:
+    id-token: write
+    contents: read
 
 jobs:
   fetch-tag-step:
